@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:layout_gravity="center" 
+    tools:context=".Tab4" >
+
+    <Button
+        android:id="@+id/phoneBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_btn" />
+
+    <Button
+        android:id="@+id/blogBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/phoneBtn"
+        android:text="@string/blog_btn" />
+    
+</RelativeLayout>

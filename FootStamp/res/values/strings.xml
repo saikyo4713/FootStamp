@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">발도장 콕콕!!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Tab 1</string>
+    <string name="title_section2">Tab 2</string>
+    <string name="title_section3">Tab 3</string>
+    <string name="title_section4">Tab 4</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tab1_button">Button in First Tab</string>
+    <string name="phone_btn">CALL ME</string>
+    <string name="blog_btn">My Blog</string>
+    <string name="tab1_text">TAB 1</string>
+    <string name="tab2_text">TAB 2</string>
+    <string name="tab3_text">TAB 3</string>
+
+</resources>

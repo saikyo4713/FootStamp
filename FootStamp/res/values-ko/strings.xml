@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_section1">HOME</string>
+    <string name="title_section2">우리나라 문화유산</string>
+    <string name="title_section3">방문정보</string>
+    <string name="title_section4">나의 정보</string>
+
+</resources>
