@@ -7,10 +7,12 @@
     <string name="title_section2">Tab 2</string>
     <string name="title_section3">Tab 3</string>
     <string name="title_section4">Tab 4</string>
+    <string name="title_section5">DefaultDetailList</string>    
     <string name="hello_world">Hello world!</string>
     <string name="tab1_button">Button in First Tab</string>
     <string name="phone_btn">CALL ME</string>
     <string name="blog_btn">My Blog</string>
+    <string name="reset_btn">Reset Visit Log</string>
     <string name="tab1_text">TAB 1</string>
     <string name="tab2_text">TAB 2</string>
     <string name="tab3_text">TAB 3</string>

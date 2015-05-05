@@ -1,17 +1,31 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context=".Tab1" >
     
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
-    <TextView
+	<ListView 
         android:id="@+id/mainList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       	android:dividerHeight="4dp"
+       	android:divider="#00000000"
+    />
+	      
+	<ProgressBar android:id="@+id/loading" 
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+		android:visibility="invisible"
+		style="?android:attr/progressBarStyleLarge" />
+	
+    <ImageView 
+        android:id="@+id/imgEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:src="@drawable/loading"/>       	
+	       
+</LinearLayout>

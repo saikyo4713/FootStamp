@@ -2,20 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-	android:layout_gravity="center" 
+	android:gravity="center_horizontal|center_vertical"
+	android:background="#FFFFFF"
     tools:context=".Tab4" >
 
     <Button
         android:id="@+id/phoneBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/phone_btn" />
-
+        android:text="@string/phone_btn" 
+        android:textSize="14dp"
+        android:layout_margin="8dp"
+        android:textColor="#8041D9"            
+        android:background="@drawable/btn_style" />
+        
     <Button
         android:id="@+id/blogBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:layout_below="@+id/phoneBtn"
-        android:text="@string/blog_btn" />
-    
+        android:text="@string/blog_btn"
+        android:textSize="14dp"
+        android:layout_margin="8dp"
+        android:textColor="#8041D9"            
+        android:background="@drawable/btn_style" />
+      
+    <Button
+        android:id="@+id/resetBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/blogBtn"
+        android:text="@string/reset_btn"         
+        android:textSize="14dp"
+        android:layout_margin="8dp"
+        android:textColor="#8041D9"            
+        android:background="@drawable/btn_style" />
+        
 </RelativeLayout>

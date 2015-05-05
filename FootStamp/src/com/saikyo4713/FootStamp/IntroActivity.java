@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.*;
 import android.os.*;
 import android.view.*;
-import android.widget.TextView;
 
 public class IntroActivity extends Activity {
 
@@ -20,6 +19,7 @@ public class IntroActivity extends Activity {
 	}
 	
 	Runnable irun = new Runnable() {
+		@Override
 		public void run() {
 			Intent i = new Intent(IntroActivity.this, MainActivity.class);
 			startActivity(i);

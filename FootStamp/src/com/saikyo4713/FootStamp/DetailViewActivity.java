@@ -7,53 +7,53 @@ import org.apache.http.*;
 import org.apache.http.client.*;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
+import org.json.*;
 
-import com.saikyo4713.FootStamp.R;
+import com.saikyo4713.FootStamp.Tab1.*;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.*;
 import android.app.*;
-import android.content.Intent;
-import android.support.v4.app.*;
+import android.content.*;
+import android.os.*;
 import android.support.v4.app.Fragment;
 import android.util.*;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView.*;
+import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+public class DetailViewActivity extends Activity {
 
-import com.saikyo4713.FootStamp.DetailListActivity;
-import com.squareup.picasso.*;
-
-public class Tab1 extends Fragment {
 		private ListView listView;
-		private DefaultListAdapter mAdapter;
-		private ArrayList<DefaultListModel> mDataList;
-		private View view;
+		private DetailViewAdapter mAdapter;
+		private ArrayList<DetailViewModel> mDataList;
 			
+		private String atdno;	
+	
 		private ProgressDialog dialog;
 		private ImageView imgEmpty;
-		private ProgressBar progress;
 		
-		public Tab1(ListView mlistView) {
-			//listView = mlistView;
-		}
-				
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			view = inflater.inflate(R.layout.activity_tab1, container, false);
-									
-			//View view = getView().findViewById(R.id.mainList);
-						
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.default_detail_view);
+			
+			atdno = getIntent().getStringExtra("atno");
+			
+			Log.d("", "atdno : " + atdno);
+			
 			new JsonLoadingTask().execute();
-					
-	    	return view;
 		}
+
+		@Override
+		protected void onDestroy() {
+			super.onDestroy();
+			if(dialog != null) dialog.dismiss();
+		}		
 		
 		/**
 		 * 원격의 데이터를 가지고 JSON 객체를 생성한 다음에 객체에서 데이터 타입별로 데이터를 읽어서 StringBuffer에 추가한다.
@@ -64,14 +64,14 @@ public class Tab1 extends Fragment {
 			//StringBuffer sb = new StringBuffer();
 			
 			try {
-				String line = getStringFromUrl("http://transer.iptime.org/~withweb/index.php/project/mainList");
+				String line = getStringFromUrl("http://transer.iptime.org/~withweb/index.php/project/detailView?atdno=" + atdno);
 				
 				// 원격에서 읽어온 데이터로 JSON 객체 생성
 				JSONObject object = new JSONObject(line);
 				
 				// "kkt_list" 배열로 구성 되어있으므로 JSON 배열생성
 				JSONArray jsonArray = new JSONArray(object.getString("List"));
-				mDataList = new ArrayList<DefaultListModel>();
+				mDataList = new ArrayList<DetailViewModel>();
 				
 				for (int i = 0; i < jsonArray.length(); i++) {
 					// bodylist 배열안에 내부 JSON 이므로 JSON 내부 객체 생성
@@ -79,8 +79,8 @@ public class Tab1 extends Fragment {
 
 					// StringBuffer 메소드 ( append : StringBuffer 인스턴스에 뒤에 덧붙인다. )
 					// JSONObject 메소드 ( get.String(), getInt(), getBoolean() .. 등 : 객체로부터 데이터의 타입에 따라 원하는 데이터를 읽는다. )	
-					
-					mDataList.add(new DefaultListModel(insideObject.getString("atno"),insideObject.getString("atimg"),insideObject.getString("atname"),insideObject.getString("aname")));
+			
+					mDataList.add(new DetailViewModel(insideObject.getString("aname"),insideObject.getString("atname"),insideObject.getString("atdname"),insideObject.getString("atdcontent"),insideObject.getString("atdimg")));
 					
 				} // for
 			} catch (JSONException e) {
@@ -132,11 +132,6 @@ public class Tab1 extends Fragment {
 			return contentStream;
 		} // getInputStreamFromUrl
 
-		@Override
-		public void onDestroy() {
-			super.onDestroy();
-			if(dialog != null) dialog.dismiss();
-		}				
 		
 		/**
 		 *	스레드에서 향상된 AsyncTask 를 이용하여
@@ -146,55 +141,27 @@ public class Tab1 extends Fragment {
 					    
 			@Override
 		    protected void onPreExecute() {
-				//super.onPreExecute();
-				//dialog = ProgressDialog.show(getActivity(), "Loading...", "Please wait...", true);
-				listView = (ListView) view.findViewById(R.id.mainList);
-				//TextView textEmpty = (TextView) view.findViewById(R.id.textEmpty);
-				imgEmpty = (ImageView) view.findViewById(R.id.imgEmpty);
-				progress = (ProgressBar) view.findViewById(R.id.loading);
-				//Picasso.with(getActivity().getApplicationContext()).load(R.drawable.loading).into(imgEmpty);
-				listView.setEmptyView(progress);
-				//textEmpty.setText("데이터 로딩중 입니다..");				
-		    }			
+					super.onPreExecute();
+					dialog = ProgressDialog.show(DetailViewActivity.this, "Loading...", "Please wait...", true);
+		    }					
 			
 			@Override
 			protected String doInBackground(String... strs) {
-				return getJsonText();
+				return getJsonText(); 
 			} // doInBackground : 백그라운드 작업을 진행한다.
 			@Override
 			protected void onPostExecute(String result) {
-				//textView.setText(result);
-		        //super.onPostExecute(result);
-		        //dialog.hide();
-		        
-				mAdapter = new DefaultListAdapter(mDataList);
-							
-				if(mDataList.size() > 0) {
-					listView.setAdapter(mAdapter);				
-					listView.setOnItemClickListener(new OnItemClickListener()
-					{
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-						{
-							//Toast.makeText(getActivity(), mDataList.get(position).atno, Toast.LENGTH_SHORT).show();
-							Bundle bundle = new Bundle();
-							bundle.putString("atno", mDataList.get(position).atno);
-													
-							//Intent intent = new Intent(getActivity().getApplicationContext(), DetailListActivity.class);
-							//Intent intent = new Intent(parent.getContext(), DetailListActivity.class);
-							Intent intent = new Intent(getActivity().getBaseContext(), DetailListActivity.class);
-							intent.putExtras(bundle);
-							intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							//parent.getContext().startActivity(intent);
-							getActivity().startActivity(intent);
-						
-						}
-					});
-				}else{
-					listView.setEmptyView(imgEmpty);
-					progress.setVisibility(View.GONE);
-					Picasso.with(getActivity().getApplicationContext()).load(R.drawable.no_data_black).into(imgEmpty);
-				}						
+				//textView.setText(result);		
+		        super.onPostExecute(result);
+		        dialog.hide();				
+				//Log.d("", "mDataList : " + mDataList);
+				
+				mAdapter = new DetailViewAdapter(mDataList);
+				
+				listView = (ListView) findViewById(R.id.detailView);
+				listView.setAdapter(mAdapter);				
+
 			} // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
 		} // JsonLoadingTask			
+		
 }
